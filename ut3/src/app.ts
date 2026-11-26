@@ -4,6 +4,7 @@
 // requestId → logger → express.json → routers → notFound → errorHandler.
 
 import express from 'express';
+import {env} from './config/env.js';
 import type { Application } from 'express';
 
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -21,6 +22,7 @@ export function createApp(): Application {
   app.use(express.json());
 
   app.use((req, _res, next) => {
+    if (env.DEPURACION === 1)
     console.log('[3] JSON procesado', req.requestId, req.body);
     next();
   });

@@ -18,11 +18,20 @@ export interface ArticleChanges {
 // The in-memory array now lives here, not in the routes.
 const articles: Article[] = [];
 
-export function list(page: number, limit: number) {
+export function list(page: number, limit: number, sinDescripcion: boolean = false,) {
+  let filteredArticles = articles;
+
+  if (sinDescripcion) {
+    filteredArticles = articles.filter(
+      (article) => article.description === 'Sin descripcion',
+    )
+  }
+  
   const start = (page - 1) * limit;
+
   return {
-    data: articles.slice(start, start + limit),
-    pagination: { page, limit, total: articles.length },
+    data: filteredArticles.slice(start, start + limit),
+    pagination: { page, limit, total: filteredArticles.length },
   };
 }
 
